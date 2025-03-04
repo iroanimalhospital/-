@@ -32,52 +32,19 @@ def calculate_fee(medicines, weight, discount):
 
 st.title("動物病院 予防薬料金シミュレーター")
 
-weight = st.number_input("体重 (kg)", min_value=0.1, step=0.1)
-discount = st.number_input("割引率 (%)", min_value=0, max_value=100, step=1)
+weight = st.number_input("体重 (kg)", min_value=0.1, step=0.1, key="weight")
+discount = st.number_input("割引率 (%)", min_value=0, max_value=100, step=1, key="discount")
 
 medicines = {}
 options = ["イベルメック", "クレデリオプラス", "ネクスガードスペクトラ", "ブラベクト", "クレデリオ", "ネクスガード"]
-selected_medicines = [medicine for medicine in options if st.checkbox(medicine)]
+selected_medicines = [medicine for medicine in options if st.checkbox(medicine, key=f"checkbox_{medicine}")]
 
-for medicine in selected_medicines:
-    quantity = st.number_input(f"{medicine} の個数", min_value=1, step=1, key=f"quantity_{medicine}")
+for i, medicine in enumerate(selected_medicines):
+    quantity = st.number_input(f"{medicine} の個数", min_value=1, step=1, key=f"quantity_{i}")
     medicines[medicine] = quantity
 
-if st.button("計算"):
+if st.button("計算", key="calculate"):
     total_fee, discounted_fee, discount_amount = calculate_fee(medicines, weight, discount)
     st.success(f"合計料金: {total_fee} 円")
     st.success(f"割引後の料金: {discounted_fee:.0f} 円")
     st.info(f"割引額: {discount_amount:.0f} 円")
-st.title("動物病院 予防薬料金シミュレーター")
-
-weight = st.number_input("体重 (kg)", min_value=0.1, step=0.1)
-discount = st.number_input("割引率 (%)", min_value=0, max_value=100, step=1)
-
-medicines = {}
-options = ["イベルメック", "クレデリオプラス", "ネクスガードスペクトラ", "ブラベクト", "クレデリオ", "ネクスガード"]
-selected_medicines = [medicine for medicine in options if st.checkbox(medicine)]
-
-for medicine in selected_medicines:
-    quantity = st.number_input(f"{medicine} の個数", min_value=1, step=1, key=f"quantity_{medicine}")
-    medicines[medicine] = quantity
-
-if st.button("計算"):
-    total_fee, discounted_fee, discount_amount = calculate_fee(medicines, weight, discount)
-    st.success(f"合計料金: {total_fee} 円")
-    st.success(f"割引後の料金: {discounted_fee:.0f} 円")
-    st.info(f"割引額: {discount_amount:.0f} 円")
-
-
-weight = st.number_input("体重 (kg)", min_value=0.1, step=0.1)
-num_medicines = st.number_input("使用する薬の種類数", min_value=1, max_value=4, step=1)
-medicines = {}
-
-for i in range(num_medicines):
-    st.subheader(f"薬 {i+1}")
-    medicine_type = st.selectbox("薬の種類", ["イベルメック", "クレデリオプラス", "ネクスガードスペクトラ", "ブラベクト"], key=f"medicine_{i}")
-    quantity = st.number_input("個数", min_value=1, step=1, key=f"quantity_{i}")
-    medicines[medicine_type] = quantity
-
-if st.button("計算"):
-    total_fee = calculate_fee(medicines, weight)
-    st.success(f"合計料金: {total_fee} 円")
