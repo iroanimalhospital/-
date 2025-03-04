@@ -48,6 +48,24 @@ if st.button("計算"):
     st.success(f"合計料金: {total_fee} 円")
     st.success(f"割引後の料金: {discounted_fee:.0f} 円")
     st.info(f"割引額: {discount_amount:.0f} 円")
+st.title("動物病院 予防薬料金シミュレーター")
+
+weight = st.number_input("体重 (kg)", min_value=0.1, step=0.1)
+discount = st.number_input("割引率 (%)", min_value=0, max_value=100, step=1)
+
+medicines = {}
+options = ["イベルメック", "クレデリオプラス", "ネクスガードスペクトラ", "ブラベクト", "クレデリオ", "ネクスガード"]
+selected_medicines = [medicine for medicine in options if st.checkbox(medicine)]
+
+for medicine in selected_medicines:
+    quantity = st.number_input(f"{medicine} の個数", min_value=1, step=1, key=f"quantity_{medicine}")
+    medicines[medicine] = quantity
+
+if st.button("計算"):
+    total_fee, discounted_fee, discount_amount = calculate_fee(medicines, weight, discount)
+    st.success(f"合計料金: {total_fee} 円")
+    st.success(f"割引後の料金: {discounted_fee:.0f} 円")
+    st.info(f"割引額: {discount_amount:.0f} 円")
 
 
 weight = st.number_input("体重 (kg)", min_value=0.1, step=0.1)
