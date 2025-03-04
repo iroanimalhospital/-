@@ -30,7 +30,7 @@ def calculate_fee(medicines, weight, discount):
     discount_amount = total_price - discounted_price
     return total_price, discounted_price, discount_amount
 
-st.title("動物病院 予防薬料金シミュレーター")
+st.title("いろ動物病院 予防薬料金シミュレーター")
 
 weight = st.number_input("体重 (kg)", min_value=0.1, step=0.1, key="weight")
 discount = st.number_input("割引率 (%)", min_value=0, max_value=100, step=1, key="discount")
